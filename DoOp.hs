@@ -47,3 +47,11 @@ readInt (c:cs)   | ord c < 48 || ord c > 57 = Nothing
                 where
                   value = (ord c - 48) * (10 ^ length cs)
                   rest = readInt cs
+
+getLineLength :: IO Int
+getLineLength = getLine >>= (\l -> return $ length l)
+
+printAndGetLength :: String -> IO Int
+printAndGetLength str = do
+    putStrLn str
+    return $ length str
