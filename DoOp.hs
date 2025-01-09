@@ -36,3 +36,14 @@ maybeDo :: (a -> b -> c) -> Maybe a -> Maybe b -> Maybe c
 maybeDo _ Nothing _         = Nothing
 maybeDo _ _ Nothing         = Nothing
 maybeDo f (Just a) (Just b) = Just $ f a b
+
+readInt :: [Char] -> Maybe Int
+readInt []       = Nothing
+readInt [c]      | ord c < 48 || ord c > 57 = Nothing
+                 | otherwise = Just $ ord c - 48
+readInt ('-':cs) = readInt cs >>= (\r -> Just $ r * (-1))
+readInt (c:cs)   | ord c < 48 || ord c > 57 = Nothing
+                 | otherwise = rest >>= (\r -> Just $ r + value)
+                where
+                  value = (ord c - 48) * (10 ^ length cs)
+                  rest = readInt cs
