@@ -79,6 +79,7 @@ printBoxInternal n s | n <= 0 = return ()
                                    printBoxInternal (n - 1) s
 
 printBox :: Int -> IO ()
+printBox 1 = putStrLn "++"
 printBox n | n <= 0 = return ()
            | otherwise = putChar '+' >>
                          printBoxLine (n * 2 - 1) >>
