@@ -81,4 +81,11 @@ printBox n | n <= 0 = return ()
                          printBoxLine (n * 2 - 1) >>
                          return ()
 
+concatLines :: Int -> IO String
+concatLines n | n <= 0 = return ""
+              | otherwise = do
+                            line <- getLine
+                            others <- concatLines $ n - 1
+                            return $ line ++ others
+
 
