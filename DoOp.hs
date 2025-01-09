@@ -67,18 +67,18 @@ printBoxWall 1 = putStrLn "|"
 printBoxWall n = putChar ' ' >> printBoxWall (n - 1)
 
 printBoxInternal :: Int -> Int -> IO ()
-printBoxInternal 0 _ = return ()
 printBoxInternal n s | n <= 0 = return ()
                      | otherwise = putChar '|' >>
                                    printBoxWall (s * 2 - 1) >>
                                    printBoxInternal (n - 1) s
 
 printBox :: Int -> IO ()
-printBox 0 = return ()
-printBox n | n < 0 = return ()
+printBox n | n <= 0 = return ()
            | otherwise = putChar '+' >>
                          printBoxLine (n * 2 - 1) >>
                          printBoxInternal (n - 2) n >>
                          putChar '+' >>
                          printBoxLine (n * 2 - 1) >>
                          return ()
+
+
