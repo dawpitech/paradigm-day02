@@ -103,12 +103,17 @@ maybeSafeDiv _ (Just 0)        = Nothing
 maybeSafeDiv (Just a) (Just b) = Just (div a b)
 maybeSafeDiv _ _               = Nothing
 
+maybeSafeMod :: Maybe Int -> Maybe Int -> Maybe Int
+maybeSafeMod _ (Just 0)        = Nothing
+maybeSafeMod (Just a) (Just b) = Just (mod a b)
+maybeSafeMod _ _               = Nothing
+
 doop :: [String] -> Maybe Int
 doop [ a, "+", b ] = maybeDo (+) (readInt a) (readInt b)
 doop [ a, "-", b ] = maybeDo (+) (readInt a) (readInt b)
 doop [ a, "*", b ] = maybeDo (*) (readInt a) (readInt b)
 doop [ a, "/", b ] = maybeSafeDiv (readInt a) (readInt b)
-doop [ a, "%", b ] = maybeDo mod (readInt a) (readInt b)
+doop [ a, "%", b ] = maybeSafeMod (readInt a) (readInt b)
 doop [ a, _ , b ]  = Nothing
 
 computeExit :: Maybe Int -> IO ()
