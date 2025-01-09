@@ -5,8 +5,14 @@
 -- DoOp.hs
 -}
 
+module Main where
+
 import Data.Char (ord)
 import Data.Maybe (isNothing)
+import Distribution.ModuleName (main)
+import System.Directory.Internal.Prelude (getArgs, exitFailure)
+import Distribution.Compat.Prelude (exitSuccess, ExitCode (ExitSuccess, ExitFailure), exitWith)
+import Data.Binary.Builder (putInt16host)
 
 myElem :: Eq a => a -> [a] -> Bool
 myElem _ []     = False
@@ -90,3 +96,25 @@ concatLines n | n <= 0 = return ""
 
 getInt :: IO (Maybe Int)
 getInt = readInt <$> getLine
+
+maybeSafeDiv :: Maybe Int -> Maybe Int -> Maybe Int
+maybeSafeDiv _ (Just 0)        = Nothing
+maybeSafeDiv (Just a) (Just b) = Just (div a b)
+maybeSafeDiv _ _               = Nothing
+
+doop :: [String] -> Maybe Int
+doop [ a, "+", b ] = maybeDo (+) (readInt a) (readInt b)
+doop [ a, "-", b ] = maybeDo (+) (readInt a) (readInt b)
+doop [ a, "*", b ] = maybeDo (*) (readInt a) (readInt b)
+doop [ a, "/", b ] = maybeSafeDiv (readInt a) (readInt b)
+doop [ a, "%", b ] = maybeDo mod (readInt a) (readInt b)
+doop [ a, _ , b ]  = Nothing
+
+computeExit :: Maybe Int -> IO ()
+computeExit Nothing  = exitWith (ExitFailure 84)
+computeExit (Just i) = print i
+
+main :: IO ()
+main = do
+    args <- getArgs
+    computeExit (doop args)
