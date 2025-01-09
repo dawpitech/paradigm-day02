@@ -88,4 +88,5 @@ concatLines n | n <= 0 = return ""
                             others <- concatLines $ n - 1
                             return $ line ++ others
 
-
+getInt :: IO (Maybe Int)
+getInt = readInt <$> getLine
