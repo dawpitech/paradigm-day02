@@ -11,8 +11,8 @@ import Data.Char (ord)
 import Data.Maybe (isNothing)
 import Distribution.ModuleName (main)
 import System.Directory.Internal.Prelude (getArgs, exitFailure)
-import Distribution.Compat.Prelude (exitSuccess, ExitCode (ExitSuccess, ExitFailure), exitWith)
 import Data.Binary.Builder (putInt16host)
+import System.Exit (exitWith, ExitCode(ExitFailure))
 
 myElem :: Eq a => a -> [a] -> Bool
 myElem _ []     = False
