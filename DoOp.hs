@@ -110,11 +110,11 @@ maybeSafeMod _ _               = Nothing
 
 doop :: [String] -> Maybe Int
 doop [ a, "+", b ] = maybeDo (+) (readInt a) (readInt b)
-doop [ a, "-", b ] = maybeDo (+) (readInt a) (readInt b)
+doop [ a, "-", b ] = maybeDo (-) (readInt a) (readInt b)
 doop [ a, "*", b ] = maybeDo (*) (readInt a) (readInt b)
 doop [ a, "/", b ] = maybeSafeDiv (readInt a) (readInt b)
 doop [ a, "%", b ] = maybeSafeMod (readInt a) (readInt b)
-doop [ a, _ , b ]  = Nothing
+doop _  = Nothing
 
 computeExit :: Maybe Int -> IO ()
 computeExit Nothing  = exitWith (ExitFailure 84)
